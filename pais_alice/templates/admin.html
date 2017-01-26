@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>No Pais da Alice</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../assets/css/docs.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+    </head>
+    <body>
+        <div id="container">
+            <div class="container">
+                <div class="page-header">
+                <h1>Pais Alice</h1>
+            </div>
+                    <div id="content">
+                        <div class="title">
+                            <h3>Requisição Atual</h3>
+                        </div>
+                        <div class="card">
+                            <div>
+                                <div class="panel panel-primary">
+                                      <div class="panel-heading">Descrição da requisição</div>
+                                      <div class="panel-body table-responsive">
+                                          <table class="table table-hover">
+                                            <thead>
+                                                <th>Login</th>
+                                                <th>Email</th>
+                                                <th>Sentido</th>
+                                                <th>Det_NCM</th>
+                                                <th>Tipo_NCM</th>
+                                                <th>Lista_NCM</th>
+                                                <th>Bloco_Econ</th>
+                                                <th>País</th>
+                                                <th>Estado</th>
+                                                <th>Porto</th>
+                                                <th>Via</th>
+                                                <th>Det_1</th>
+                                                <th>Det_2</th>
+                                                <th>Tipo_Período</th>
+                                                <th>Dia_Inicio</th>
+                                                <th>Ano_Inicio</th>
+                                                <th>Mes_Fim</th>
+                                                <th>Mes_Fim</th>
+
+                                            </thead>
+                                            <tbody>
+                                                {% for value in data: %}
+                                                    {% if value != "img_url" %}
+                                                        <td>{{ value }}</td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                          </table>
+                                      </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="title">
+                            <h3>Histórico de requisições no pais alice</h3>
+                        </div>
+                        <div class="card">
+                            <div>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">Descrição da requisição</div>
+                                        <div class="panel-body table-responsive">
+                                              <table class="table table-hover">
+                                                <thead>
+                                                    <th>id</th>
+                                                    <th>email</th>
+                                                    <th>data requisição</th>
+                                                    <th>login</th>
+                                                    <th>inicio proc</th>
+                                                    <th>fim proc</th>
+                                                    <th>status requisição</th>
+
+                                                </thead>
+                                                <tbody>
+                                                    {% for row in historico: %}
+                                                        <tr>
+                                                            {% for value in row: %}
+                                                                <td>{{ value }}</td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+            </div>
+    </body>
+</html>

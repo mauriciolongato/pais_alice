@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>No Pais da Alice</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <form method="post" action="{{ url_for('request_info') }}">
+      <fieldset class="formConsult hBox boxWidth-20"><div id="totalGeral" class="hBox marginLeft-5 boxWidth-12 multiOptions">
+        </div>
+        
+        <!-- Inclusão do municipio UF -->
+        <div id="munUF" class="hBox boxWidth-19 separador inputWidth-8 noMargin" style="display: none;">
+          <div class="boxWidth-5 description">
+            <label for="" class="bold">Municípios por UF:</label>
+          </div>
+          <div class="hBox">
+            <select name="municipioPorUf" id="municipioPorUf">
+              <option value="" selected="">Selecione ...</option>
+              <option value="12">Acre</option><option value="27">Alagoas</option><option value="16">Amapá</option><option value="13">Amazonas</option><option value="32">Bahia</option><option value="23">Ceará</option><option value="95">Consumo de bordo</option><option value="54">Distrito Federal</option><option value="34">Espírito Santo</option><option value="98">Estados diversos - Café</option><option value="53">Goiás</option><option value="21">Maranhão</option><option value="52">Mato Grosso</option><option value="55">Mato Grosso do Sul</option><option value="96">Mercadoria nacionalizada</option><option value="33">Minas Gerais</option><option value="15">Pará</option><option value="25">Paraíba</option><option value="42">Paraná</option><option value="26">Pernambuco</option><option value="22">Piauí</option><option value="97">Reexportação</option><option value="36">Rio de Janeiro</option><option value="24">Rio Grande do Norte</option><option value="45">Rio Grande do Sul</option><option value="11">Rondônia</option><option value="14">Roraima</option><option value="44">Santa Catarina</option><option value="41">São Paulo</option><option value="31">Sergipe</option><option value="17">Tocantins</option><option value="99">Zona Não Declarada</option>        </select>
+            <div param="munUF" class="help"></div>
+          </div>
+        </div>
+        <!-- Início da faixa de municipio UF -->
+
+        <div id="municipioUF" class="boxNCM marginLeft-5 boxWidth-13" style="display: none;">
+          <img class="indicadorNCM" style="left:100px;" alt="">
+          <p class="noMargin bold">titulo.adicioneQuinzeMunicipios:</p>
+          <div class="vBox inputWidth-6">
+            <input type="text" divid="divVlMunUF" maxlength="15" helper="formText" value="" id="valorMunUF" name="valorMunUF" autocomplete="off" class="ac_input">
+          </div>
+          <div class="hBox boxWidth-6 inputWidth-2">
+            <button id="btnAddMunicipio" type="button" class="botao" value="Adicionar">
+            Adicionar        </button>
+            <button id="btnLimparMunicipio" type="button" class="botao" value="Limpar">
+            Limpar        </button>
+          </div>
+          <ul id="listaMunicipiosCesta" class="listaProdutos separador">
+
+          </ul>
+        </div>
+
+
+        <!-- Fim inclusão municipio UF -->
+        <div id="filtrarPor" class="hBox separador boxWidth-20">
+          <div class="boxWidth-5 description">
+            <h1>No País da Alice</h1>
+            <br>
+            <h3>Informações de Login</h3>
+            <h4>Coloque seu login e senha de acesso ao sistema Aliceweb</h4>
+          </div>
+          <!-- Login Aliceweb -->
+          <fieldset style= "border: 1px solid#ccc"> 
+            <legend>Informações de Login</legend>
+            <div style="width: 100%; display: table;">
+              <div style="display: table-row">
+                <div class="boxWidth-5 description" style="width: 160px; display: table-cell;">
+                  <label for="" class="bold"> Login: </label>
+                </div>
+                <div style="display: table-cell;">
+                  <div class="hBox">
+                    <input type="text" name="login">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div style="width: 100%; display: table;">
+              <div style="display: table-row">
+                <div class="boxWidth-5 description" style="width: 160px; display: table-cell;">
+                  <label for="" class="bold"> Senha: </label>
+                </div>
+                <div style="display: table-cell;">
+                  <div class="hBox">
+                    <input type="password" name="pass">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div style="width: 100%; display: table;">
+              <div style="display: table-row">
+                <div class="boxWidth-5 description" style="width: 160px; display: table-cell;">
+                  <label for="" class="bold"> E-mail: </label>
+                </div>
+                <div style="display: table-cell;">
+                  <div class="hBox">
+                    <input type="text" name="email">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <br>  
+          <br>
+
+          <!-- Importacao Exportacao -->
+          <fieldset style= "border: 1px solid#ccc"> 
+            <legend>Consulta Imp/Exp</legend>
+            <div style="width: 100%; display: table;">
+              <div style="display: table-row">
+                <div class="boxWidth-5 description" style="width: 160px; display: table-cell;">
+                  <label for="" class="bold"> Imp/Exp: </label>
+                </div>
+                <div style="display: table-cell;">
+                  <div class="hBox">
+                    <select name="imp_exp" id="imp_exp">
+                      <option value="" selected="">Selecione ...</option>
+                      <option value="Imp">Importação</option>
+                      <option value="Exp">Exportação</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+          </fieldset>
+          <br>  
+          <br>
+
+          <!-- Inicio da Especificação da Consulta -->
+          <!-- Início da faixa de NCM -->
+          <div class="boxWidth-5 description">
+            <h3>Filtros</h3>
+          </div>
+          <fieldset style= "border: 1px solid#ccc"> 
+            <legend>Informações referentes aos NCMs</legend>
+            <div style="width: 100%; display: table;">
+            <!-- box de intervalo de NCM -->
+              <div style="display: table-row">
+                <div style="width: 160px; display: table-cell;">
+                  <div class="hBox boxWidth-9 inputWidth-8">
+                  <label for="" class="bold">Detalhamento NCM:</label>
+                  <div param="NCM" class="help"></div>
+                  </div>
+                </div>
+                <div style="display: table-cell;">
+                  <select name="modo_ncm" id="modo_ncm">
+                    <option value="" selected="">Selecione ...</option>
+                    <option value="unitario">lista de NCMs</option>
+                    <option value="intervalo">intervalo entre 2 NCMs</option>
+                  </select>
+                </div>
+              </div>  
+            </div>  
+            <br>
+
+            <div style="width: 100%; display: table;">
+            <!-- box de intervalo de NCM -->
+              <div style="display: table-row">
+                <div style="width: 160px; display: table-cell;">
+                  <div class="hBox boxWidth-9 inputWidth-8">
+                  <label for="" class="bold">Tipo NCM:</label>
+                  <div param="NCM" class="help"></div>
+                  </div>
+                </div>
+                <div style="display: table-cell;">
+                  <select name="tipoNcm" id="tipoNcm">
+                    <option value="" selected="">Selecione ...</option>
+                    <option value="TX_CD_SH2">Capítulo - SH 2 dígitos</option>
+                    <option value="TX_CD_SH4">Posição - SH 4 dígitos</option>
+                    <option value="TX_CD_SH6">Subposição - SH 6 dígitos</option>
+                    <option value="TX_CD_SH8">NCM 8 dígitos</option>
+                  </select>
+                </div>
+              </div>  
+            </div>
+
+            <br>
+            <br>
+            <!-- caixa de texto para o usuario colocar os ncms separados por virgula -->
+            <!-- COLOCAR TEXTO EXPLICANDO COMO ACRESCENTAR A INFORMAÇÃO -->
+            <div class="hBox boxWidth-9 inputWidth-8">
+              <label class="bold">Insira a lista de NCMs separados por vírgulas:</label>
+                <div param="NCM" class="help"></div>
+              <br>
+              <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+                <textarea name="comment" rows="5" cols="60" style="margin-top: 0px;margin-bottom: 0px;height: 110px;"></textarea>
+              </form>
+            </div>
+          </fieldset>
+          <br>
+          <br>
+          <!-- Início dos outros atributos -->
+          <fieldset style= "border: 1px solid#ccc"> 
+            <legend>Informações Blocos, Países, Estado, Porto e Via</legend>
+            <div id="faixaNcm" class="boxNCM marginLeft-5 boxWidth-13" style="display: none;">
+              <img class="indicadorNCM" style="left:100px;" alt="">
+              <p class="noMargin bold">Informe um intervalo de mercadorias abrangendo até 15 capítulos</p>
+              <div class="vBox inputWidth-5">
+                <input type="text" divid="divVlNcmInicial" maxlength="15" helper="formText" value="" id="valorNcmInicial" name="valorNcmInicial" autocomplete="off" class="ac_input">
+                <p class="noMargin"><small id="exemploCestaProdutos">Exemplo: 01 até 15</small></p>
+              </div>
+              <div class="hBox inputWidth-5">
+                <label>até </label>
+                <input type="text" twopoints="false" divid="divVlNcmFinal" maxlength="15" helper="formText" value="" id="valorNcmFinal" name="valorNcmFinal" autocomplete="off" class="ac_input">
+              </div>
+            </div>
+           
+            <!-- bloco economico -->
+            <div style="width: 100%; display: table;">
+              <div class="boxWidth-5 description" style="width: 160px; display: table-cell;">
+                <label for="" class="bold">Bloco Econômico:</label>
+              </div>
+              <div style="display: table-cell;">
+                <div class="hBox">
+                  <select name="bloco" id="bloco">
+                  <option value="" selected="">Selecione ...</option>
+                  <option value="62">Acordo Com.Relac Econ. Austrália/Nova Zelândia (ANZCERTA)</option><option value="73">Acordo de Complementação Econômica (ACE 59)</option><option value="14">Acordo de Livre Comércio da América do Norte (NAFTA)</option><option value="58">Acordo Livre Com.América Central/Rep.Dominicana (CAFTADR)</option><option value="51">África (exclusive ORIENTE MÉDIO)</option><option value="82">África Subsaariana</option><option value="12">ALADI (exclusive MERCOSUL)</option><option value="85">Aliança do Pacífico</option><option value="48">América do Sul</option><option value="35">América do Sul (exclusive MERCOSUL)</option><option value="38">América Latina</option><option value="33">América Latina e Caribe</option><option value="87">América Latina e Caribe (exceto MERCOSUL)</option><option value="26">Área de Livre Comércio das Américas (ALCA)</option><option value="39">Ásia (exclusive ORIENTE MÉDIO)</option><option value="45">Ásia 5</option><option value="53">Associação das Nações do Sudeste Asiático (ASEAN)</option><option value="23">Associação Europeia de Livre Comércio (AELC)</option><option value="11">Associação Latino Americana de Integração (ALADI)</option><option value="90">BENELUX (Bélgica, Holanda, Luxemburgo)</option><option value="77">BRIC (Brasil, Rússia, Índia, China)</option><option value="83">BRICS (Brasil, Rússia, Índia, China, África do Sul)</option><option value="31">Caribe</option><option value="37">China, Hong Kong e Macau</option><option value="86">Com. de Estados Latino-Americanos e Caribenhos (CELAC)</option><option value="89">Commonwealth (Comunidade Britânica)</option><option value="16">Comu. e Mercado Comum do Caribe (CARICOM)</option><option value="27">Comunidade Andina das Nações (CAN)</option><option value="30">Comunidade de Países de Língua Portuguesa (CPLP)</option><option value="20">Comunidade dos Estados Independentes (CEI)</option><option value="52">Comunidade Econ. dos Países da África Ocidental (ECOWAS)</option><option value="57">Comunidade para o Desenvolv. África Meridional (SADC)</option><option value="44">Conselho de Cooperação do Golfo (CCG)</option><option value="59">Cooperação Econômica da Ásia e do Pacífico (APEC)</option><option value="21">Europa Oriental</option><option value="76">Forum de Diálogo Índia, Brasil, África do Sul (IBAS)</option><option value="80">Grupo de Visegrad</option><option value="75">Grupo dos 20  (G-20)</option><option value="24">Grupo dos 7 (G-7)</option><option value="71">Grupo dos 8 (G-8)</option><option value="43">Liga Árabe</option><option value="13">Mercado Comum Centro Americano (MCCA)</option><option value="10">Mercado Comum do Sul (MERCOSUL)</option><option value="84">Mercado Comum do Sul 5 (MERCOSUL 5)</option><option value="91">Mercado Comum do Sul 6 (MERCOSUL 6)</option><option value="99">Não Declarados</option><option value="61">Oceania</option><option value="25">Organização de Coop. P/ Desenvolv. Econ.  (OCDE)</option><option value="47">Organização do Tratado de Cooperação Amazônica (OTCA)</option><option value="42">Organização dos Países Exportadores de Petróleo (OPEP)</option><option value="41">Oriente Médio</option><option value="79">Países Bálticos</option><option value="81">Países de Menor Desenvolvimento Relativo</option><option value="36">Países Desenvolvidos</option><option value="34">Países em Desenvolvimento</option><option value="72">Países Íbero-Americanos</option><option value="78">Países Nórdicos</option><option value="28">Sistema de Integração Centro-Americana (SICA)</option><option value="74">Sistema Global de Preferências Comerciais (SGPC)</option><option value="46">União Aduaneira do Sul da África (SACU)</option><option value="55">União Econ. e Monetária do Oeste da África - (UEMOA)</option><option value="22">União Europeia (UE)</option>            </select>
+                  <div param="BLOCO" class="help"></div>
+                </div>
+              </div>
+            </div>
+            
+            <br>
+            <!-- País -->
+             <div style="width: 100%; display: table;">
+              <div class="hBox boxWidth-19 inputWidth-8 noMargin" style="width: 160px; display: table-cell;">
+                <label for="" class="bold">País:</label>
+              </div>
+              <div style="display: table-cell;">
+                <div class="hBox">
+                  <select name="pais" id="pais">
+                  <option value="" selected="">Selecione ...</option>
+                  <option value="994">A Designar</option><option value="013">Afeganistão</option><option value="756">África do Sul</option><option value="015">Aland, Ilhas</option><option value="017">Albânia</option><option value="020">Alboran-Perejil, Ilhas</option><option value="023">Alemanha</option><option value="025">Alemanha Oriental</option><option value="037">Andorra</option><option value="040">Angola</option><option value="041">Anguilla</option><option value="043">Antígua e Barbuda</option><option value="047">Antilhas Holandesas</option><option value="053">Arábia Saudita</option><option value="059">Argélia</option><option value="063">Argentina</option><option value="064">Armênia</option><option value="065">Aruba</option><option value="069">Austrália</option><option value="072">Áustria</option><option value="073">Azerbaijão</option><option value="077">Bahamas</option><option value="995">Bancos Centrais</option><option value="081">Bangladesh</option><option value="083">Barbados</option><option value="080">Barein</option><option value="085">Belarus</option><option value="087">Bélgica</option><option value="088">Belize</option><option value="229">Benin</option><option value="090">Bermudas</option><option value="097">Bolívia</option><option value="099">Bonaire, Saint Eustatius e Saba</option><option value="098">Bósnia-Herzegovina</option><option value="101">Botsuana</option><option value="102">Bouvet, Ilha</option><option value="108">Brunei</option><option value="111">Bulgária</option><option value="031">Burkina Faso</option><option value="115">Burundi</option><option value="119">Butão</option><option value="127">Cabo Verde</option><option value="145">Camarões</option><option value="141">Camboja</option><option value="149">Canadá</option><option value="150">Canal, Ilhas do (Guernsey)</option><option value="152">Canal, Ilhas do (Jersey)</option><option value="151">Canárias, Ilhas</option><option value="154">Catar</option><option value="137">Cayman, Ilhas</option><option value="153">Cazaquistão</option><option value="788">Chade</option><option value="158">Chile</option><option value="160">China</option><option value="163">Chipre</option><option value="511">Christmas (Navidad), Ilha</option><option value="741">Cingapura</option><option value="165">Cocos (Keeling), Ilhas</option><option value="169">Colômbia</option><option value="173">Comores</option><option value="177">Congo</option><option value="888">Congo, República Democrática</option><option value="183">Cook, Ilhas</option><option value="187">Coreia do Norte</option><option value="190">Coreia do Sul</option><option value="193">Costa do Marfim</option><option value="196">Costa Rica</option><option value="198">Coveite (Kuweit)</option><option value="195">Croácia</option><option value="199">Cuba</option><option value="200">Curaçao</option><option value="232">Dinamarca</option><option value="783">Djibuti</option><option value="235">Dominica</option><option value="237">Dubai</option><option value="240">Egito</option><option value="687">El Salvador</option><option value="244">Emirados Árabes Unidos</option><option value="239">Equador</option><option value="243">Eritreia</option><option value="247">Eslováquia</option><option value="246">Eslovênia</option><option value="245">Espanha</option><option value="249">Estados Unidos</option><option value="251">Estônia</option><option value="253">Etiópia</option><option value="255">Falkland (Malvinas)</option><option value="259">Faroe, Ilhas</option><option value="870">Fiji</option><option value="267">Filipinas</option><option value="271">Finlândia</option><option value="275">França</option><option value="281">Gabão</option><option value="285">Gâmbia</option><option value="289">Gana</option><option value="291">Geórgia</option><option value="293">Gibraltar</option><option value="297">Granada</option><option value="301">Grécia</option><option value="305">Groenlândia</option><option value="309">Guadalupe</option><option value="313">Guam</option><option value="317">Guatemala</option><option value="337">Guiana</option><option value="325">Guiana Francesa</option><option value="329">Guiné</option><option value="331">Guiné Equatorial</option><option value="334">Guiné-Bissau</option><option value="341">Haiti</option><option value="345">Honduras</option><option value="351">Hong Kong</option><option value="355">Hungria</option><option value="357">Iêmen</option><option value="358">Iêmen Democrático</option><option value="361">Índia</option><option value="365">Indonésia</option><option value="367">Inglaterra</option><option value="100">Internação na Zona Franca de Manaus</option><option value="372">Irã</option><option value="369">Iraque</option><option value="375">Irlanda</option><option value="379">Islândia</option><option value="383">Israel</option><option value="386">Itália</option><option value="388">Iugoslávia</option><option value="391">Jamaica</option><option value="399">Japão</option><option value="396">Johnston, Ilhas</option><option value="403">Jordânia</option><option value="411">Kiribati</option><option value="420">Laos</option><option value="423">Lebuan, Ilhas</option><option value="426">Lesoto</option><option value="427">Letônia</option><option value="431">Líbano</option><option value="434">Libéria</option><option value="438">Líbia</option><option value="440">Liechtenstein</option><option value="442">Lituânia</option><option value="445">Luxemburgo</option><option value="447">Macau</option><option value="449">Macedônia</option><option value="450">Madagascar</option><option value="452">Madeira, Ilha da</option><option value="455">Malásia</option><option value="458">Malavi</option><option value="461">Maldivas</option><option value="464">Mali</option><option value="467">Malta</option><option value="359">Man, Ilha de</option><option value="472">Marianas do Norte, Ilhas</option><option value="474">Marrocos</option><option value="476">Marshall, Ilhas</option><option value="477">Martinica</option><option value="485">Maurício</option><option value="488">Mauritânia</option><option value="493">México</option><option value="093">Mianmar</option><option value="499">Micronésia</option><option value="490">Midway, Ilhas</option><option value="505">Moçambique</option><option value="494">Moldávia</option><option value="495">Mônaco</option><option value="497">Mongólia</option><option value="498">Montenegro</option><option value="501">Montserrat</option><option value="507">Namíbia</option><option value="999">Não Declarados</option><option value="000">Não Definido</option><option value="508">Nauru</option><option value="517">Nepal</option><option value="521">Nicarágua</option><option value="525">Níger</option><option value="528">Nigéria</option><option value="531">Niue</option><option value="535">Norfolk, Ilha</option><option value="538">Noruega</option><option value="542">Nova Caledônia</option><option value="548">Nova Zelândia</option><option value="556">Omã</option><option value="997">Organizações Internacionais</option><option value="563">Pacífico, Ilhas do (Administração dos EUA)</option><option value="566">Pacífico, Ilhas do (EUA)</option><option value="569">Pacífico, Ilhas do (Território Fideicomisso EUA)</option><option value="573">Países Baixos (Holanda)</option><option value="575">Palau</option><option value="578">Palestina</option><option value="580">Panamá</option><option value="545">Papua Nova Guiné</option><option value="583">Papua, Território de</option><option value="576">Paquistão</option><option value="586">Paraguai</option><option value="589">Peru</option><option value="593">Pitcairn</option><option value="599">Polinésia Francesa</option><option value="603">Polônia</option><option value="611">Porto Rico</option><option value="607">Portugal</option><option value="990">Provisão de Navios e Aeronaves</option><option value="623">Quênia</option><option value="625">Quirguistão</option><option value="628">Reino Unido</option><option value="640">República Centro-Africana</option><option value="647">República Dominicana</option><option value="660">Reunião</option><option value="670">Romênia</option><option value="675">Ruanda</option><option value="676">Rússia</option><option value="685">Saara Ocidental</option><option value="678">Saint Kitts e Nevis</option><option value="677">Salomão, Ilhas</option><option value="690">Samoa</option><option value="691">Samoa Americana</option><option value="697">San Marino</option><option value="710">Santa Helena</option><option value="715">Santa Lúcia</option><option value="693">São Bartolomeu</option><option value="695">São Cristóvão e Névis</option><option value="700">São Pedro e Miquelon</option><option value="720">São Tomé e Príncipe</option><option value="705">São Vicente e Granadinas</option><option value="731">Seicheles</option><option value="728">Senegal</option><option value="735">Serra Leoa</option><option value="737">Sérvia</option><option value="699">Sint Maarten</option><option value="744">Síria</option><option value="748">Somália</option><option value="750">Sri Lanka</option><option value="754">Suazilândia</option><option value="759">Sudão</option><option value="760">Sudão do Sul</option><option value="764">Suécia</option><option value="767">Suíça</option><option value="770">Suriname</option><option value="772">Tadjiquistão</option><option value="776">Tailândia</option><option value="161">Taiwan (Formosa)</option><option value="780">Tanzânia</option><option value="791">Tcheca, República</option><option value="790">Tchecoslováquia</option><option value="786">Território Antártico Britânico</option><option value="782">Território Britânico do Oceano Índico</option><option value="785">Território da Alta Comissão do Pacífico Ocidental</option><option value="795">Timor Leste</option><option value="800">Togo</option><option value="810">Tonga</option><option value="805">Toquelau</option><option value="815">Trinidad e Tobago</option><option value="820">Tunísia</option><option value="823">Turcas e Caicos, Ilhas</option><option value="824">Turcomenistão</option><option value="827">Turquia</option><option value="828">Tuvalu</option><option value="831">Ucrânia</option><option value="833">Uganda</option><option value="840">União das Repúblicas Socialistas Soviéticas</option><option value="845">Uruguai</option><option value="847">Uzbequistão</option><option value="551">Vanuatu</option><option value="848">Vaticano</option><option value="850">Venezuela</option><option value="858">Vietnã</option><option value="866">Virgens, Ilhas (Americanas)</option><option value="863">Virgens, Ilhas (Britânicas)</option><option value="873">Wake, Ilha</option><option value="875">Wallis e Futuna, Ilhas</option><option value="890">Zâmbia</option><option value="665">Zimbábue</option><option value="895">Zona do Canal do Panamá</option>            </select>
+                  <div param="PAIS" class="help"></div>
+                </div>
+              </div>
+            </div>
+
+            
+            <br>
+            <!-- Estado -->
+            <div style="width: 100%; display: table;">
+              <div class="hBox boxWidth-19 noMargin" style="width: 160px; display: table-cell;">
+                <div class="boxWidth-5 description">
+                  <label for="" class="bold">Estado:</label>
+                </div>
+              </div>
+              <div class="hBox" style="display: table-cell;">
+                <select id="uf" name="uf">
+                <option value="" selected="">Selecione ...</option>
+                <option value="12">Acre</option><option value="27">Alagoas</option><option value="16">Amapá</option><option value="13">Amazonas</option><option value="32">Bahia</option><option value="23">Ceará</option><option value="95">Consumo de bordo</option><option value="54">Distrito Federal</option><option value="34">Espírito Santo</option><option value="98">Estados diversos - Café</option><option value="53">Goiás</option><option value="21">Maranhão</option><option value="52">Mato Grosso</option><option value="55">Mato Grosso do Sul</option><option value="96">Mercadoria nacionalizada</option><option value="33">Minas Gerais</option><option value="15">Pará</option><option value="25">Paraíba</option><option value="42">Paraná</option><option value="26">Pernambuco</option><option value="22">Piauí</option><option value="97">Reexportação</option><option value="36">Rio de Janeiro</option><option value="24">Rio Grande do Norte</option><option value="45">Rio Grande do Sul</option><option value="11">Rondônia</option><option value="14">Roraima</option><option value="44">Santa Catarina</option><option value="41">São Paulo</option><option value="31">Sergipe</option><option value="17">Tocantins</option><option value="99">Zona Não Declarada</option>        </select>
+                <div param="UF" class="help"></div>
+              </div>
+            </div>
+            <br>
+            <!-- Porto -->
+            <div style="width: 100%; display: table;">
+              <div class="hBox boxWidth-19 inputWidth-8 noMargin" style="width: 160px; display: table-cell;">
+                <div class="boxWidth-5 description">
+                <label for="" class="bold">Porto:</label>
+                </div>
+              </div>
+              <div style="display: table-cell;">
+                <div class="hBox">
+                  <select name="porto" id="porto">
+                  <option value="" selected="">Selecione ...</option>
+                  <option value="3204">ABADIA</option><option value="1102">ABUNA</option><option value="4504">ACEGUA</option><option value="2605">AFOGADOS DA INGAZEIRA</option><option value="1501">ALMEIRIM</option><option value="1604">AMAPA</option><option value="5302">ANAPOLIS</option><option value="3402">ANCHIETA</option><option value="3604">ANGRA DOS REIS</option><option value="4204">ANTONINA</option><option value="3106">ARACAJU - AEROPORTO</option><option value="3104">ARACAJU - PORTO</option><option value="2308">ARACATI</option><option value="2607">ARARIPINA</option><option value="3207">ARATU - PORTO</option><option value="4206">ARAUCARIA</option><option value="2404">AREIA BRANCA</option><option value="1206">ASSIS BRASIL</option><option value="4507">BAGE</option><option value="1510">BARCARENA</option><option value="4509">BARRA DO QUARAI</option><option value="2609">BARREIROS</option><option value="4105">BAURU</option><option value="5502">BELA VISTA</option><option value="1506">BELEM - AEROPORTO</option><option value="1504">BELEM - PORTO</option><option value="3304">BELO HORIZONTE - AEROPORTO</option><option value="3305">BELO HORIZONTE - AEROPORTO (CONFINS)</option><option value="1304">BENJAMIN CONSTANT</option><option value="1404">BOA VISTA</option><option value="1408">BONFIM</option><option value="1212">BRASILEIA</option><option value="5402">BRASILIA</option><option value="1518">BREVES</option><option value="3612">CABO FRIO</option><option value="5205">CACERES</option><option value="5303">CALDAS NOVAS</option><option value="3213">CAMACA</option><option value="3212">CAMAMU</option><option value="2312">CAMOCIM</option><option value="4102">CAMPINAS - AEROPORTO</option><option value="5503">CAMPO GRANDE</option><option value="4129">CAMPOS DO JORDAO</option><option value="4104">CANANEIA</option><option value="3216">CANAVIEIRAS</option><option value="1308">CANUTAMA</option><option value="3220">CARAVELAS</option><option value="2314">CAUCAIA</option><option value="4511">CAXIAS DO SUL</option><option value="2102">CHAPADINHA</option><option value="4516">CHUI</option><option value="4207">COLOMBO</option><option value="3424">CONCEICAO DA BARRA</option><option value="5506">CORUMBA - AEROPORTO</option><option value="5508">CORUMBA - FERROVIA</option><option value="5504">CORUMBA - PORTO</option><option value="5505">CORUMBA - RODOVIA</option><option value="1216">CRUZEIRO DO SUL</option><option value="5208">CUIABA</option><option value="4208">CURITIBA - AEROPORTO</option><option value="4235">CURITIBA - AEROPORTO</option><option value="2701">DELMIRO GOUVEIA</option><option value="4403">DIONISIO CERQUEIRA</option><option value="4522">ESTEIO - FERROVIA</option><option value="4524">ESTEIO - RODOVIA</option><option value="4406">FLORIANOPOLIS - AEROPORTO</option><option value="4404">FLORIANOPOLIS - PORTO</option><option value="2322">FORTALEZA - AEROPORTO</option><option value="2320">FORTALEZA - PORTO</option><option value="4213">FOZ DO IGUACU - AEROPORTO</option><option value="4212">FOZ DO IGUACU - RODOVIA</option><option value="4218">FOZ DO IGUACU - RODOVIA (PTE FRATERNID ARG)</option><option value="5304">GOIANIA</option><option value="3309">GOVERNADOR VALADARES</option><option value="4216">GUAIRA</option><option value="1106">GUAJARA-MIRIM - AEROPORTO</option><option value="1104">GUAJARA-MIRIM - PORTO</option><option value="1105">GUAJARA-MIRIM - RODOVIA</option><option value="4111">GUARUJA</option><option value="4103">IBITINGA</option><option value="4112">IGUAPE</option><option value="3224">ILHEUS</option><option value="4408">IMBITUBA</option><option value="4125">INDAIATUBA</option><option value="3245">ITABUNA</option><option value="1316">ITACOATIARA</option><option value="4412">ITAJAI</option><option value="3412">ITAPEMIRIM</option><option value="4528">ITAQUI</option><option value="4534">JAGUARAO - AEROPORTO</option><option value="4532">JAGUARAO - PORTO</option><option value="4531">JAGUARAO - RODOVIA</option><option value="2510">JOAO PESSOA - AEROPORTO (SANTA RITA)</option><option value="2504">JOAO PESSOA - PORTO (CABEDELO)</option><option value="4416">JOINVILLE</option><option value="4140">JUNDIAI</option><option value="4420">LAGUNA</option><option value="4109">LIMEIRA</option><option value="2204">LUIS CORREA</option><option value="3670">MACAE</option><option value="1607">MACAPA - AEROPORTO</option><option value="1606">MACAPA - PORTO</option><option value="2408">MACAU</option><option value="2706">MACEIO - AEROPORTO</option><option value="2704">MACEIO - PORTO</option><option value="1322">MANAUS - AEROPORTO</option><option value="1320">MANAUS - PORTO</option><option value="4252">MARINGA</option><option value="1516">MONTE DOURADO</option><option value="5510">MUNDO NOVO (CORONEL RENATO)</option><option value="1502">MUNGUBA</option><option value="3313">MURIAE</option><option value="9999">NAO DECLARADO</option><option value="0000">NAO DEFINIDO</option><option value="2414">NATAL - AEROPORTO</option><option value="2412">NATAL - PORTO</option><option value="5515">NAVIRAI</option><option value="3620">NITEROI</option><option value="4544">NOVO HAMBURGO</option><option value="1512">OBIDOS</option><option value="1608">OIAPOQUE</option><option value="1520">ORIXIMINA</option><option value="1406">PACARAIMA</option><option value="1324">PARINTINS</option><option value="2210">PARNAIBA - AEROPORTO</option><option value="2208">PARNAIBA - PORTO</option><option value="2418">PARNAMIRIM</option><option value="3323">PATROCINIO</option><option value="2324">PECEM - PORTO</option><option value="4542">PELOTAS - AEROPORTO</option><option value="4540">PELOTAS - PORTO</option><option value="2610">PETROLINA AEROPORTO</option><option value="5513">PONTA PORA - AEROPORTO</option><option value="5512">PONTA PORA - RODOVIA</option><option value="1513">PORTEL</option><option value="4550">PORTO ALEGRE - AEROPORTO</option><option value="4548">PORTO ALEGRE - OUTROS</option><option value="4549">PORTO ALEGRE - PORTO</option><option value="4228">PORTO DE PARANAGUA</option><option value="4560">PORTO DE RIO GRANDE</option><option value="5516">PORTO ESPERANCA</option><option value="4552">PORTO LUCENA</option><option value="4539">PORTO MAUA</option><option value="4232">PORTO MENDES</option><option value="5520">PORTO MURTINHO</option><option value="1108">PORTO VELHO</option><option value="4554">PORTO XAVIER</option><option value="4127">PRAIA GRANDE</option><option value="4113">PRESIDENTE PRUDENTE</option><option value="4556">QUARAI</option><option value="2602">RECIFE - AEROPORTO</option><option value="2601">RECIFE - PORTO</option><option value="2603">RECIFE - PORTO (SUAPE)</option><option value="1522">REDENCAO</option><option value="4114">RIBEIRAO PRETO</option><option value="3602">RIO BONITO</option><option value="1252">RIO BRANCO</option><option value="3606">RIO DE JANEIRO - AEROPORTO</option><option value="3605">RIO DE JANEIRO - PORTO</option><option value="3680">RIO DE JANEIRO - PORTO (SEPETIBA)</option><option value="5517">RIO VERDE DE MATO GROSSO</option><option value="3244">SALVADOR - AEROPORTO</option><option value="3243">SALVADOR - PORTO</option><option value="4564">SANTA CRUZ DO SUL</option><option value="4240">SANTA HELENA</option><option value="3359">SANTA LUZIA</option><option value="1610">SANTANA</option><option value="4538">SANTANA DO LIVRAMENTO - FERROVIA</option><option value="4536">SANTANA DO LIVRAMENTO - RODOVIA</option><option value="1514">SANTAREM</option><option value="4250">SANTO ANTONIO</option><option value="4117">SANTOS</option><option value="4584">SAO BORJA</option><option value="4428">SAO FRANCISCO DO SUL</option><option value="4115">SAO JOSE DO RIO PRETO</option><option value="4128">SAO JOSE DOS CAMPOS</option><option value="4592">SAO LOURENCO DO SUL</option><option value="2106">SAO LUIS - AEROPORTO</option><option value="2104">SAO LUIS - PORTO</option><option value="4120">SAO PAULO - AEROPORTO</option><option value="4106">SAO PAULO - AEROPORTO DE CUMBICA</option><option value="4121">SAO PAULO - CORREIO</option><option value="4110">SAO PAULO - DAP DE</option><option value="4119">SAO PAULO - FERROVIA</option><option value="4124">SAO SEBASTIAO</option><option value="1248">SENA MADUREIRA</option><option value="4138">SOROCABA</option><option value="4132">SUMARE</option><option value="1391">TABATINGA - AEROPORTO</option><option value="1390">TABATINGA - PORTO</option><option value="5206">TANGARA DA SERRA</option><option value="4133">TATUI</option><option value="4136">TAUBATE</option><option value="2212">TERESINA</option><option value="4594">TRAMANDAI</option><option value="2108">TUTOIA</option><option value="4135">UBATUBA</option><option value="3311">UBERABA</option><option value="3358">UBERLANDIA</option><option value="4597">URUGUAIANA - AEROPORTO</option><option value="4598">URUGUAIANA - FERROVIA</option><option value="4596">URUGUAIANA - RODOVIA</option><option value="3360">VARGINHA</option><option value="3430">VITORIA - AEROPORTO</option><option value="3428">VITORIA - PORTO</option><option value="3425">VITORIA - PORTO DE PRAIA MOLE</option><option value="3426">VITORIA - PORTO DE TUBARAO</option><option value="3233">VITORIA DA CONQUISTA</option>        </select>
+                  <div param="PORTO" class="help"></div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- Via -->
+            <div style="width: 100%; display: table;">
+              <div class="hBox boxWidth-19 inputWidth-8" style="width: 160px; display: table-cell;">
+                <div class="boxWidth-5 description">
+                  <label for="" class="bold">Via:</label>
+                </div>
+              </div>
+              <div style="display: table-cell;">
+                <div class="hBox">
+                  <select name="via" id="via">
+                  <option value="" selected="">Selecione ...</option>
+                  <option value="4 ">Aérea</option><option value="8 ">Conduto / Rede de transmissão</option><option value="6 ">Ferroviária</option><option value="2 ">Fluvial</option><option value="3 ">Lacustre</option><option value="1 ">Marítima</option><option value="9 ">Meios próprios</option><option value="5 ">Postal</option><option value="7 ">Rodoviária</option><option value="0 ">Via não declarada</option>
+                  </select>
+                  <div param="VIA" class="help"></div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <br>  
+          <br>
+          <!-- Detalhamentos -->
+          <div class="boxWidth-5 description">
+            <h3>Detalhamentos</h3>
+          </div>
+          <fieldset style= "border: 1px solid#ccc"> 
+            <legend> O resultado da Consulta é detalhado pelo item selecionado </legend>
+            <div id="detalharPor" class="hBox boxWidth-19 inputWidth-8 separador">
+              <div style="width: 100%; display: table;">
+                <!-- linha com os campos das descrições -->
+                <div style="display: table-row">
+                  <!-- Detalhamento 1 -->
+                  <div style="width: 160px; display: table-cell;"> Detalhamento 1: </div>
+                  <div style="display: table-cell;">
+                    <select help="input primeiroDetalhamento" descriptiontitle="comum.detalharPor" divid="divPesquisa" helper="formSelect" id="primeiroDetalhamento" name="primeiroDetalhamento">
+                    <option value="">Nenhum</option><option value="TX_CD_SH2">Capítulo - SH 2 dígitos</option><option value="TX_CD_SH4">Posição - SH 4 dígitos</option><option value="TX_CD_SH6">Sub-Posição - SH 6 dígitos</option><option value="TX_CD_SH8">NCM 8 dígitos</option><option value="TX_CD_BLOCO">Bloco Econômico</option><option value="TX_CD_PAIS">País</option><option value="TX_CD_UF">UF</option><option value="TX_CD_MUNICIPIO_GEO">Município</option><option value="TX_CD_PORTO">Porto</option><option value="TX_CD_VIA">Via</option>        </select>
+                    <div param="DETALHAMENTO" class="help"></div>
+                  </div>  
+                </div>
+                <br>
+                <div style="display: table-row">
+                  <!-- Detalhamento 2 -->   
+                  <div style="width: 160px; display: table-cell;"> Detalhamento 2: </div>
+                  <div style="display: table-cell;">        
+                    <select id="segundoDetalhamento" name="segundoDetalhamento">
+                    <option value="">Nenhum</option>Nenhum</option><option value="TX_CD_SH2">Capítulo - SH 2 dígitos</option><option value="TX_CD_SH4">Posição - SH 4 dígitos</option><option value="TX_CD_SH6">Sub-Posição - SH 6 dígitos</option><option value="TX_CD_SH8">NCM 8 dígitos</option><option value="TX_CD_BLOCO">Bloco Econômico</option><option value="TX_CD_PAIS">País</option><option value="TX_CD_UF">UF</option><option value="TX_CD_MUNICIPIO_GEO">Município</option><option value="TX_CD_PORTO">Porto</option><option value="TX_CD_VIA">Via</option>                </select>
+                    <div param="DETALHAMENTO" class="help"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <br>
+          <br>
+          
+          <div class="boxWidth-5 description">
+            <h3>Período de extração dos dados</h3>
+          </div>
+          <fieldset style= "border: 1px solid#ccc"> 
+            <div id="divGeralPeriodo_1" class="hBox boxWidth-20 separador">
+              <div style="display: table-row">
+                <div style="width: 160px; display: table-cell;"> Extração: </div>
+                <div style="width: 80px; display: table-cell;"> 
+                  <div id="divMesInicialPeriodo_1" param="PERIODO_INICIAL" class="help">
+                    <select id="periodo_extracao" name="periodo_extracao">
+                    <option value="mensal">Mensal</option><option value="anual">Anual</option>
+                    </select>
+                  </div>
+                </div>
+              </div>  
+              <br>
+              <div style="width: 100%; display: table;">
+                <!-- Mês e ano inicial -->
+                <div style="display: table-row">
+                  <div style="width: 80px; display: table-cell;">     </div>
+                  <div style="display: table-cell;"> Mês </div>
+                  <div style="display: table-cell;"> Ano </div>
+                  <!-- <div style="display: table-cell;"> Right </div>-->
+                </div>
+                <div style="display: table-row">
+                  <div style="width: 160px; display: table-cell;"> Período Inicial: </div>
+                  <div style="width: 80px; display: table-cell;"> 
+                    <div id="divMesInicialPeriodo_1" param="PERIODO_INICIAL" class="help">
+                      <select id="periodo-periodoMesInicio_1" name="periodo-periodoMesInicio[]">
+                      <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div style="display: table-cell;"> 
+                    <select id="periodo-periodoAnoInicio_1" name="periodo-periodoAnoInicio[]">
+                    <option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option>    </select>
+                  </div>
+                </div>
+              
+                <br>
+                
+                <!-- Mês e ano Final -->
+                <div style="display: table-row">
+                  <div style="width: 160px; display: table-cell;"> Período Final: </div>
+                  <div style="width: 80px; display: table-cell;"> 
+                    <div id="divMesFinalPeriodo_1" param="PERIODO_FINAL" class="help">
+                      <select id="periodo-periodoMesFinal_1" name="periodo-periodoMesFinal[]">
+                      <option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>   
+                      </select>
+                    </div>
+                  </div>  
+                  
+                  <div style="display: table-cell;">
+                    <select id="periodo-periodoAnoFinal_1" name="periodo-periodoAnoFinal[]">
+                    <option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option><option value="2012">2012</option><option value="2011">2011</option><option value="2010">2010</option><option value="2009">2009</option><option value="2008">2008</option><option value="2007">2007</option><option value="2006">2006</option><option value="2005">2005</option><option value="2004">2004</option><option value="2003">2003</option><option value="2002">2002</option><option value="2001">2001</option><option value="2000">2000</option><option value="1999">1999</option><option value="1998">1998</option><option value="1997">1997</option>    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+      <br><br>
+      <input type="submit" name="Enviar">
+    </form>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
