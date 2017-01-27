@@ -6,23 +6,35 @@ import os
 import time
 import re
 
+
 # Li linha a linha do excel
 def readRows(sheet):
     # using list comprehension
     return [sheet.row_values(idx) for idx in range(sheet.nrows)]
 
+
 # Dado uma string, retorna somente os numeros
+def trata_numeros(ncm_string):
+    # print "string_ncm: ", type(ncm_string), ncm_string
+    value = re.findall(r'\d+', ncm_string)
+    # print "imprime ncms tratados: ", ncm
+    return value
+
+
 def trata_ncm(ncm_string):
     # print "string_ncm: ", type(ncm_string), ncm_string
-    ncm = re.findall(r'\d+', ncm_string)
+    ncm = [x[0:x.index(' - ')] for x in ncm_string.split(" até ")]
+    # ncm = re.findall(r'\d+', ncm_string)
     # print "imprime ncms tratados: ", ncm
     return ncm
+
 
 # Checar se existe arquivo com analysis_status NULL
 # conn = sql.connect('/usr/lib/cgi-bin/email_app/alice_email_manager/email_tracker.db')
 db_dirpath = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 with sql.connect(db_dirpath + '/pais_alice_requests.db') as conn:
-    procs_query = conn.execute('''select * from download_inventory where unzip_status = 1 AND analysis_status is null;''')
+    procs_query = conn.execute(
+        '''select * from download_inventory where unzip_status = 1 AND analysis_status is null;''')
     procs = procs_query.fetchall()
 
 # Obtem pasta corrente
@@ -34,9 +46,9 @@ n_arquivo = 1
 data_arq = []
 for file in procs:
     # Constroi o endereco do arquivo
-    file_name_dir = file[1][:len(file[1])-4]
+    file_name_dir = file[1][:len(file[1]) - 4]
     file_name = file[2]
-    file_address = attachment_files+'/'+file_name_dir+'/'+file_name
+    file_address = attachment_files + '/' + file_name_dir + '/' + file_name
 
     # Abre o arquivo
     book = open_workbook(file_address, on_demand=True)
@@ -61,7 +73,7 @@ for file in procs:
     # Inicia a classificacao do arquivo do aliceweb - valores default
     email_id = file[0]
     attachment_file_name = file_name
-    file_address = file_address = attachment_files+'/'+file_name_dir
+    file_address = file_address = attachment_files + '/' + file_name_dir
     date_read = str(time.strftime("%d/%m/%Y %H:%M:%S"))
     sentido_trade = None
     tipo_ncm = None
@@ -103,7 +115,9 @@ for file in procs:
             # obtem tipo ncm
             db_dirpath = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
             with sql.connect(db_dirpath + '/pais_alice_requests.db') as conn:
-                procs_new = conn.execute("select description_portugues from ids_aliceweb as s where s.campo_id = 'modo_ncm' and s.value = ?;", ('unitario',))
+                procs_new = conn.execute(
+                    "select description_portugues from ids_aliceweb as s where s.campo_id = 'modo_ncm' and s.value = ?;",
+                    ('unitario',))
                 modo_ncm_att = procs_new.fetchall()
 
             modo_ncm = ''.join(modo_ncm_att[0]).strip()
@@ -118,7 +132,9 @@ for file in procs:
             # obtem tipo ncm
             db_dirpath = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
             with sql.connect(db_dirpath + '/pais_alice_requests.db') as conn:
-                procs_new = conn.execute("select description_portugues from ids_aliceweb as s where s.campo_id = 'modo_ncm' and s.value = ?;", ('intervalo',))
+                procs_new = conn.execute(
+                    "select description_portugues from ids_aliceweb as s where s.campo_id = 'modo_ncm' and s.value = ?;",
+                    ('intervalo',))
                 modo_ncm_att = procs_new.fetchall()
 
             # print ''.join(modo_ncm_att[0])
@@ -159,39 +175,40 @@ for file in procs:
 
         # P1
         if "P1" in row.value.split(':  ')[0]:
-            P1 = trata_ncm(row.value.split(':  ')[1])
-            P1 = str(P1[1])+str(P1[0])+" - "+str(P1[3])+str(P1[2])
+            P1 = trata_numeros(row.value.split(':  ')[1])
+            P1 = str(P1[1]) + str(P1[0]) + " - " + str(P1[3]) + str(P1[2])
 
         # P2
         if "P2" in row.value.split(':  ')[0]:
-            P2 = trata_ncm(row.value.split(':  ')[1])
+            P2 = trata_numeros(row.value.split(':  ')[1])
             P2 = str(P2[1]) + str(P2[0]) + " - " + str(P2[3]) + str(P2[2])
 
         # P3
         if "P3" in row.value.split(':  ')[0]:
-            P3 = trata_ncm(row.value.split(':  ')[1])
+            P3 = trata_numeros(row.value.split(':  ')[1])
             P3 = str(P3[1]) + str(P3[0]) + " - " + str(P3[3]) + str(P3[2])
 
         # P4
         if "P4" in row.value.split(':  ')[0]:
-            P4 = trata_ncm(row.value.split(':  ')[1])
+            P4 = trata_numeros(row.value.split(':  ')[1])
             P4 = str(P4[1]) + str(P4[0]) + " - " + str(P4[3]) + str(P4[2])
 
         # P5
         if "P5" in row.value.split(':  ')[0]:
-            P5 = trata_ncm(row.value.split(':  ')[1])
+            P5 = trata_numeros(row.value.split(':  ')[1])
             P5 = str(P5[1]) + str(P5[0]) + " - " + str(P5[3]) + str(P5[2])
 
         # P6
         if "P6" in row.value.split(':  ')[0]:
-            P6 = trata_ncm(row.value.split(':  ')[1])
+            P6 = trata_numeros(row.value.split(':  ')[1])
             P6 = str(P6[1]) + str(P6[0]) + " - " + str(P6[3]) + str(P6[2])
 
     # Coloca informacoes em formato de vetor
     info_row = [(
-    email_id, attachment_file_name, file_address, date_read, sentido_trade, tipo_ncm, modo_ncm, str(lista_ncm), bloco,
-    pais, uf, porto, via, primeiroDetalhamento, segundoDetalhamento, P1, P2, P3, P4, P5, P6)]
-    
+        email_id, attachment_file_name, file_address, date_read, sentido_trade, tipo_ncm, modo_ncm, str(lista_ncm),
+        bloco,
+        pais, uf, porto, via, primeiroDetalhamento, segundoDetalhamento, P1, P2, P3, P4, P5, P6)]
+
     '''
     print(type(email_id), email_id)
     print(type(attachment_file_name), attachment_file_name)
@@ -219,18 +236,17 @@ for file in procs:
     # Verifica se as caracteristicas basicas de uma requicao foram atendidas
     if sentido_trade == None:
         # Atualiza status na tabela download inventory
-        #conn = sql.connect('/usr/lib/cgi-bin/email_app/alice_email_manager/email_tracker.db')
+        # conn = sql.connect('/usr/lib/cgi-bin/email_app/alice_email_manager/email_tracker.db')
         db_dirpath = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         with sql.connect(db_dirpath + '/pais_alice_requests.db') as conn:
             conn.execute("update download_inventory set analysis_status=? where email_id=?", (3, email_id))
             conn.execute("update download_inventory set data_analysis=? where email_id=?",
-                        (str(time.strftime("%d/%m/%Y %H:%M:%S")), email_id))
+                         (str(time.strftime("%d/%m/%Y %H:%M:%S")), email_id))
             conn.commit()
-
 
     else:
         # Atualiza a tabela de email_content
-        #conn = sql.connect('/usr/lib/cgi-bin/email_app/alice_email_manager/email_tracker.db')
+        # conn = sql.connect('/usr/lib/cgi-bin/email_app/alice_email_manager/email_tracker.db')
         db_dirpath = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         with sql.connect(db_dirpath + '/pais_alice_requests.db') as conn:
             conn.text_factory = str
@@ -242,11 +258,11 @@ for file in procs:
                    , pais, uf, porto, via, primeiroDetalhamento, segundoDetalhamento
                     , P1, P2, P3, P4, P5, P6)
                     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);''',
-                    info_row)
+                info_row)
             conn.commit()
 
         # Atualiza status na tabela download inventory
-        #conn = sql.connect('/usr/lib/cgi-bin/email_app/alice_email_manager/email_tracker.db')
+        # conn = sql.connect('/usr/lib/cgi-bin/email_app/alice_email_manager/email_tracker.db')
         db_dirpath = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
         with sql.connect(db_dirpath + '/pais_alice_requests.db') as conn:
             conn.execute("update download_inventory set analysis_status=? where email_id=?", (1, email_id))
